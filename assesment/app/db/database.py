@@ -1,7 +1,10 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy import MetaData, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from databases import Database
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./event.db"
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-Base = declarative_base()
+DATABASE_URL = "sqlite+aiosqlite:///./event.db"
+engine = create_engine("sqlite:///./event.db")
+
+database = Database(DATABASE_URL)
+metadata = MetaData()
+Base = declarative_base(metadata=metadata)

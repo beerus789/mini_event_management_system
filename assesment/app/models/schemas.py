@@ -16,15 +16,10 @@ class EventOut(BaseModel):
     start_time: datetime
     end_time: datetime
     max_capacity: int
+
     class Config:
-        orm_mode = True
-    
-    # Add custom serializer for datetime fields
-    def dict(self, **kwargs):
-        data = super().dict(**kwargs)
-        data['start_time'] = self.start_time.strftime('%Y-%m-%d %H:%M')
-        data['end_time'] = self.end_time.strftime('%Y-%m-%d %H:%M')
-        return data
+        from_attributes = True
+
 
 class AttendeeCreate(BaseModel):
     name: str
@@ -35,7 +30,7 @@ class AttendeeOut(BaseModel):
     name: str
     email: EmailStr
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class AttendeeListOut(BaseModel):
     attendees: List[AttendeeOut]

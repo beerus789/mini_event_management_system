@@ -4,3 +4,10 @@ sqlalchemy
 pydantic
 alembic
 python-dotenv
+databases[sqlite]
+pytz
+
+pytest
+pytest-asyncio
+httpx
+pytest-cov
