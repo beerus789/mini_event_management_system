@@ -21,6 +21,10 @@ A production-ready FastAPI backend for managing events and attendees, built with
 - pytz
 
 ## Setup & Installation
+## API Documentation
+Once the server is running, you can view and interact with the API docs at:
+- Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 1. **Clone the repository**
    ```bash
    git clone <your-repo-url>
@@ -64,13 +68,59 @@ This will show which lines are covered and which are missing.
 
 ## Project Structure
 
-## API Endpoints
+
+## API Endpoints & Schemas
 - `POST /events` - Create a new event
 - `GET /events` - List upcoming events (supports pagination)
 - `GET /events/{event_id}` - Get event details
 - `DELETE /events/{event_id}` - Delete an event
 - `POST /events/{event_id}/register` - Register an attendee
 - `GET /events/{event_id}/attendees` - List attendees for an event
+
+### Example Schemas
+
+#### EventCreate (request)
+```json
+{
+   "name": "Sample Event",
+   "location": "Conference Hall",
+   "start_time": "2025-08-29T12:00:00+05:30",
+   "end_time": "2025-08-29T14:00:00+05:30",
+   "max_capacity": 100
+}
+```
+
+#### EventOut (response)
+```json
+{
+   "id": 1,
+   "name": "Sample Event",
+   "location": "Conference Hall",
+   "start_time": "2025-08-29T06:30:00+00:00",  // UTC
+   "end_time": "2025-08-29T08:30:00+00:00",    // UTC
+   "max_capacity": 100,
+   "start_time_formatted": "2025-08-29 12:00:00 IST",
+   "end_time_formatted": "2025-08-29 14:00:00 IST"
+}
+```
+
+#### AttendeeCreate (request)
+```json
+{
+   "name": "John Doe",
+   "email": "john@example.com"
+}
+```
+
+#### AttendeeOut (response)
+```json
+{
+   "id": 1,
+   "event_id": 1,
+   "name": "John Doe",
+   "email": "john@example.com"
+}
+```
 
 ## Testing & Coverage
 - Run tests:
@@ -83,15 +133,29 @@ This will show which lines are covered and which are missing.
   ```
 
 ## Project Structure
+
+## Structural Diagram
+
+```mermaid
+graph TD;
+      A[main.py] --> B[api/routes.py]
+      B --> C[services/]
+      C --> D[repositories/]
+      D --> E[db/database.py]
+      B --> F[models/schemas.py]
+      D --> G[models/models.py]
+```
+
+## Project Structure
 ```
 app/
-  api/routes.py         # API endpoints
-  db/database.py        # Database setup
-  main.py               # FastAPI app
-  models/models.py      # SQLAlchemy models
-  models/schemas.py     # Pydantic schemas
-  repositories/         # Data access layer
-  services/             # Business logic
+   api/routes.py         # API endpoints
+   db/database.py        # Database setup
+   main.py               # FastAPI app
+   models/models.py      # SQLAlchemy models
+   models/schemas.py     # Pydantic schemas
+   repositories/         # Data access layer
+   services/             # Business logic
 requirements.txt        # Dependencies
 ```
 
